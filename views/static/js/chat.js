@@ -12,6 +12,7 @@ const messages = document.querySelector("#messages");
 const messageTemplate = document.querySelector("#message-template").innerHTML;
 const locationTemplate = document.querySelector("#location-template").innerHTML;
 const sidebarTemplate = document.querySelector("#sidebar-template").innerHTML;
+const headTemplate = document.querySelector("#head-template").innerHTML;
 
 const languages = {
   en: "English",
@@ -26,6 +27,14 @@ const languages = {
   ta: "Tamil",
   te: "Telugu",
 };
+locationbutton.addEventListener("click", () => {
+  if (locationbutton.getAttribute("disabled")) {
+    locationbutton.innerHTML = "disabled location";
+  }
+  if (!locationbutton.getAttribute("disabled")) {
+    locationbutton.innerHTML = "enabled location";
+  }
+});
 
 //Options --This is the qs library whose link we've included in the html file
 //location.search is a browser side tool which gives us the querystring
@@ -62,6 +71,11 @@ socket.on("roomData", ({ room, users }) => {
     users,
   });
   document.querySelector("#sidebar").innerHTML = html;
+  const html2 = Mustache.render(headTemplate, {
+    room,
+    users,
+  });
+  document.querySelector("#headNav").innerHTML = html2;
 });
 
 // If locationSharing is on -> Then your location(city, country) will be visible besides every message
